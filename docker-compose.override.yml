@@ -22,7 +22,6 @@ version: '3.4'
 #     image: ghcr.io/danny-avila/librechat:latest
 
 # ---------------------------------------------------
-
 services:
   # USE NORDVPN IN HOST
   api:
@@ -31,10 +30,16 @@ services:
       - MONGO_URI=mongodb://localhost:27017/LibreChat
       - MEILI_HOST=http://localhost:7700
       - RAG_API_URL=http://localhost:${RAG_PORT:-8000}
+    # USE LIBRECHAT CONFIG FILE
     volumes:
       - type: bind
         source: ./librechat.yaml
         target: /app/librechat.yaml
+    # # LOCAL BUILD
+    # image: librechat
+    # build:
+    #   context: .
+    #   target: node
   mongodb:
     network_mode: host
   meilisearch:
@@ -44,6 +49,8 @@ services:
   rag_api:
     network_mode: host
     image: ghcr.io/danny-avila/librechat-rag-api-dev:latest
+# ---------------------------------------------------
+
 # # USE LIBRECHAT CONFIG FILE
 #   api:
 #     volumes:
